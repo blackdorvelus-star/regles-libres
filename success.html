@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Commande confirmée — Règles Libres</title>
+  <meta name="robots" content="noindex" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .page-center {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background: var(--gradient-hero);
+    }
+    .confirm-card {
+      background: var(--clr-card);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--radius-xl);
+      padding: 64px 48px;
+      text-align: center;
+      max-width: 520px;
+      width: 100%;
+      backdrop-filter: blur(20px);
+      box-shadow: var(--shadow-lg), var(--shadow-glow);
+      animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+    @keyframes popIn {
+      from { transform: scale(0.8); opacity: 0; }
+      to   { transform: scale(1); opacity: 1; }
+    }
+    .confirm-icon {
+      font-size: 5rem;
+      display: block;
+      margin-bottom: 24px;
+      animation: bounce 1s ease 0.4s both;
+    }
+    @keyframes bounce {
+      0%   { transform: scale(0); }
+      60%  { transform: scale(1.2); }
+      80%  { transform: scale(0.95); }
+      100% { transform: scale(1); }
+    }
+    .confirm-card h1 {
+      font-size: 2rem;
+      margin-bottom: 16px;
+    }
+    .confirm-card p {
+      color: var(--clr-text-soft);
+      margin-bottom: 12px;
+      line-height: 1.7;
+    }
+    .confirm-detail {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      margin: 24px 0;
+      text-align: left;
+    }
+    .confirm-detail dl {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px 16px;
+    }
+    .confirm-detail dt {
+      font-size: 0.75rem;
+      color: var(--clr-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .confirm-detail dd {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--clr-coral);
+    }
+    .merci-quote {
+      font-style: italic;
+      color: var(--clr-text-muted);
+      font-size: 0.85rem;
+      margin-top: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="page-center">
+    <div class="confirm-card">
+      <span class="confirm-icon" aria-hidden="true">🌸</span>
+      <h1 class="text-gradient">Merci infiniment !</h1>
+      <p>
+        Votre commande a été reçue et votre paiement confirmé. Nous préparerons votre colis avec soin.
+      </p>
+      <p>
+        Un courriel de confirmation vous sera envoyé sous peu.
+      </p>
+
+      <div class="confirm-detail" id="orderDetails" aria-live="polite">
+        <dl>
+          <dt>Statut</dt>
+          <dd id="paymentStatus">✅ Payé</dd>
+          <dt>Client·e</dt>
+          <dd id="customerName">—</dd>
+          <dt>Courriel</dt>
+          <dd id="customerEmail">—</dd>
+          <dt>Total</dt>
+          <dd id="amountTotal">—</dd>
+        </dl>
+      </div>
+
+      <p class="merci-quote">
+        💜 « Chaque contribution aide une personne à vivre ses règles avec dignité. »
+      </p>
+
+      <a href="/" class="btn btn-primary" style="margin-top: 32px; display: inline-flex;">
+        🌸 Retour à la boutique
+      </a>
+    </div>
+  </div>
+
+  <script>
+    // Récupérer les détails de la session depuis l'URL
+    const params = new URLSearchParams(window.location.search);
+    const sessionId = params.get('session_id');
+
+    if (sessionId) {
+      fetch(`/api/session/${sessionId}`)
+        .then(r => r.json())
+        .then(data => {
+          if (data.customerName) document.getElementById('customerName').textContent = data.customerName;
+          if (data.customerEmail) document.getElementById('customerEmail').textContent = data.customerEmail;
+          if (data.amountTotal) {
+            document.getElementById('amountTotal').textContent = 
+              (data.amountTotal / 100).toLocaleString('fr-CA', { style: 'currency', currency: 'CAD' });
+          }
+        })
+        .catch(err => console.warn('Détails session non disponibles'));
+    }
+  </script>
+</body>
+</html>

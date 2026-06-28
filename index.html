@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Règles Libres — Produits Menstruels à Contribution Volontaire</title>
+  <meta name="description" content="Règles Libres est une boutique solidaire offrant des serviettes hygiéniques et tampons de haute qualité. Payez ce que vous pouvez, ou rien du tout." />
+  <meta name="keywords" content="règles, tampons, serviettes hygiéniques, contribution volontaire, solidarité, santé menstruelle" />
+  <meta property="og:title" content="Règles Libres — Boutique Solidaire" />
+  <meta property="og:description" content="Des produits menstruels de qualité, accessibles à toutes. Contribution volontaire." />
+  <meta property="og:type" content="website" />
+  <link rel="stylesheet" href="style.css" />
+  <!-- Stripe.js -->
+  <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body>
+
+  <!-- ── Toast Container ──────────────────────────────────────────── -->
+  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+  <!-- ── Navigation ───────────────────────────────────────────────── -->
+  <nav class="navbar" id="navbar" role="navigation" aria-label="Navigation principale">
+    <div class="container">
+      <a href="#" class="nav-logo" aria-label="Règles Libres — Accueil">
+        <div class="logo-icon" aria-hidden="true">🌸</div>
+        Règles Libres
+      </a>
+      <ul class="nav-links">
+        <li><a href="#mission">Notre Mission</a></li>
+        <li><a href="#produits">Produits</a></li>
+        <li><a href="#commander">Commander</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="cart-btn" id="cartToggle" aria-label="Ouvrir le panier" aria-expanded="false">
+          🛒
+          <span class="cart-badge" id="cartBadge" aria-label="Nombre d'articles">0</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ── Hero ─────────────────────────────────────────────────────── -->
+  <section class="hero" id="accueil" aria-label="Présentation de Règles Libres">
+    <div class="hero-bg" aria-hidden="true">
+      <img src="images/hero.png" alt="" loading="eager" />
+    </div>
+    <div class="orb orb-1" aria-hidden="true"></div>
+    <div class="orb orb-2" aria-hidden="true"></div>
+    <div class="orb orb-3" aria-hidden="true"></div>
+
+    <div class="container">
+      <div class="hero-content">
+        <p class="hero-eyebrow">
+          <span></span>
+          Boutique Solidaire
+          <span></span>
+        </p>
+        <h1 class="hero-title">
+          Des règles,<br />
+          <span class="text-gradient italic">libres</span> &amp;<br />
+          accessibles.
+        </h1>
+        <p class="hero-subtitle">
+          Des serviettes hygiéniques et tampons de haute qualité, disponibles pour toutes — peu importe votre situation. Payez ce que vous pouvez, ou rien du tout.
+        </p>
+        <div class="hero-actions">
+          <a href="#produits" class="btn btn-primary btn-lg" id="heroCtaBtn">
+            🌸 Commander maintenant
+          </a>
+          <a href="#mission" class="btn btn-outline btn-lg">
+            Notre mission
+          </a>
+        </div>
+        <div class="hero-stats" role="list" aria-label="Statistiques d'impact">
+          <div class="stat" role="listitem">
+            <span class="stat-number" id="counterCommandes">0</span>
+            <span class="stat-label">Commandes servies</span>
+          </div>
+          <div class="stat" role="listitem">
+            <span class="stat-number" id="counterDons">0$</span>
+            <span class="stat-label">Contributions reçues</span>
+          </div>
+          <div class="stat" role="listitem">
+            <span class="stat-number" id="counterVilles">0</span>
+            <span class="stat-label">Villes desservies</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Mission ──────────────────────────────────────────────────── -->
+  <section class="mission" id="mission" aria-labelledby="missionTitle">
+    <div class="container">
+      <div class="mission-grid">
+        <div class="mission-content reveal">
+          <span class="section-tag">💜 Notre mission</span>
+          <h2 class="section-title" id="missionTitle">
+            La précarité menstruelle ne devrait pas exister.
+          </h2>
+          <p class="section-subtitle">
+            En France et au Canada, des milliers de personnes n'ont pas accès aux produits menstruels essentiels. Règles Libres croit que la dignité menstruelle est un droit, pas un privilège.
+          </p>
+
+          <div class="mission-features" role="list">
+            <div class="mission-feature reveal reveal-delay-1" role="listitem">
+              <div class="feature-icon" aria-hidden="true">🌿</div>
+              <div class="feature-text">
+                <h4>Qualité sans compromis</h4>
+                <p>Nous sélectionnons uniquement des produits premium — coton biologique, sans parfum ni chlore.</p>
+              </div>
+            </div>
+            <div class="mission-feature reveal reveal-delay-2" role="listitem">
+              <div class="feature-icon" aria-hidden="true">💝</div>
+              <div class="feature-text">
+                <h4>Contribution volontaire</h4>
+                <p>Payez ce que vous pouvez. Celles qui le peuvent contribuent pour celles qui ne le peuvent pas.</p>
+              </div>
+            </div>
+            <div class="mission-feature reveal reveal-delay-3" role="listitem">
+              <div class="feature-icon" aria-hidden="true">🔒</div>
+              <div class="feature-text">
+                <h4>Discret & confidentiel</h4>
+                <p>Livraison dans un emballage neutre, sans mention du contenu. Votre vie privée est respectée.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="mission-visual reveal">
+          <div class="mission-card">
+            <img src="images/serviettes.png" alt="Serviettes hygiéniques de haute qualité" loading="lazy" />
+            <div class="mission-card-overlay">
+              <span class="impact-pill">
+                🌸 Chaque commande compte
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Products ─────────────────────────────────────────────────── -->
+  <section class="products" id="produits" aria-labelledby="produitsTitle">
+    <div class="container">
+      <div class="products-header reveal">
+        <span class="section-tag">🛍️ Catalogue</span>
+        <h2 class="section-title" id="produitsTitle">Nos produits</h2>
+        <p class="section-subtitle">
+          Choisissez vos produits, sélectionnez la variante, ajustez la quantité.
+        </p>
+      </div>
+
+      <!-- Products Grid -->
+      <div class="products-grid" id="productsGrid" role="list" aria-label="Catalogue de produits">
+
+        <!-- Serviettes hygiéniques -->
+        <article class="product-card reveal" role="listitem" data-product-id="serviettes">
+          <div class="product-image">
+            <img src="images/serviettes.png" alt="Serviettes hygiéniques premium" loading="lazy" />
+            <span class="product-badge">Populaire</span>
+          </div>
+          <div class="product-body">
+            <h3 class="product-name">Serviettes hygiéniques</h3>
+            <p class="product-description">
+              Serviettes ultra-douces en coton biologique. Absorption fiable, confort maximal, sans irritation.
+            </p>
+            <div class="product-variants" role="group" aria-label="Choisir l'absorbance">
+              <button class="variant-btn active" data-variant="regular" aria-pressed="true">Regular</button>
+              <button class="variant-btn" data-variant="super" aria-pressed="false">Super</button>
+              <button class="variant-btn" data-variant="nuit" aria-pressed="false">Nuit</button>
+            </div>
+            <div class="product-footer">
+              <div class="product-price">
+                <span class="price-label">Coût suggéré</span>
+                <span class="price-value">4,99$ <span>/ paquet</span></span>
+              </div>
+              <div class="qty-controls" aria-label="Quantité">
+                <button class="qty-btn" aria-label="Diminuer la quantité" data-action="decrease" data-product="serviettes">−</button>
+                <span class="qty-value" id="qty-serviettes" aria-live="polite">1</span>
+                <button class="qty-btn" aria-label="Augmenter la quantité" data-action="increase" data-product="serviettes">+</button>
+              </div>
+            </div>
+            <button class="add-to-cart-btn" id="addServiettes" aria-label="Ajouter les serviettes au panier">
+              🛒 Ajouter au panier
+            </button>
+          </div>
+        </article>
+
+        <!-- Tampons -->
+        <article class="product-card reveal reveal-delay-1" role="listitem" data-product-id="tampons">
+          <div class="product-image">
+            <img src="images/tampons.png" alt="Tampons premium en coton biologique" loading="lazy" />
+            <span class="product-badge">Bio</span>
+          </div>
+          <div class="product-body">
+            <h3 class="product-name">Tampons</h3>
+            <p class="product-description">
+              Tampons 100% coton bio, sans applicateur en plastique. Confortables, sûrs et respectueux de l'environnement.
+            </p>
+            <div class="product-variants" role="group" aria-label="Choisir l'absorbance">
+              <button class="variant-btn active" data-variant="regular" aria-pressed="true">Regular</button>
+              <button class="variant-btn" data-variant="super" aria-pressed="false">Super</button>
+              <button class="variant-btn" data-variant="super-plus" aria-pressed="false">Super+</button>
+            </div>
+            <div class="product-footer">
+              <div class="product-price">
+                <span class="price-label">Coût suggéré</span>
+                <span class="price-value">5,99$ <span>/ boîte</span></span>
+              </div>
+              <div class="qty-controls" aria-label="Quantité">
+                <button class="qty-btn" aria-label="Diminuer la quantité" data-action="decrease" data-product="tampons">−</button>
+                <span class="qty-value" id="qty-tampons" aria-live="polite">1</span>
+                <button class="qty-btn" aria-label="Augmenter la quantité" data-action="increase" data-product="tampons">+</button>
+              </div>
+            </div>
+            <button class="add-to-cart-btn" id="addTampons" aria-label="Ajouter les tampons au panier">
+              🛒 Ajouter au panier
+            </button>
+          </div>
+        </article>
+
+        <!-- Pack Complet -->
+        <article class="product-card reveal reveal-delay-2" role="listitem" data-product-id="pack">
+          <div class="product-image" style="background: linear-gradient(135deg, #1A0D18, #2A0E1A); display:flex; align-items:center; justify-content:center; height:220px;">
+            <span style="font-size:5rem;" aria-hidden="true">🎀</span>
+          </div>
+          <div class="product-body">
+            <h3 class="product-name">Pack Solidaire Complet</h3>
+            <p class="product-description">
+              1 paquet de serviettes (Regular) + 1 boîte de tampons (Regular). Le duo essentiel pour un cycle complet.
+            </p>
+            <div class="product-variants" role="group" aria-label="Type de pack">
+              <button class="variant-btn active" data-variant="essentiel" aria-pressed="true">Essentiel</button>
+              <button class="variant-btn" data-variant="premium" aria-pressed="false">Premium</button>
+            </div>
+            <div class="product-footer">
+              <div class="product-price">
+                <span class="price-label">Coût suggéré</span>
+                <span class="price-value">9,99$ <span>/ pack</span></span>
+              </div>
+              <div class="qty-controls" aria-label="Quantité">
+                <button class="qty-btn" aria-label="Diminuer la quantité" data-action="decrease" data-product="pack">−</button>
+                <span class="qty-value" id="qty-pack" aria-live="polite">1</span>
+                <button class="qty-btn" aria-label="Augmenter la quantité" data-action="increase" data-product="pack">+</button>
+              </div>
+            </div>
+            <button class="add-to-cart-btn" id="addPack" aria-label="Ajouter le pack au panier">
+              🛒 Ajouter au panier
+            </button>
+          </div>
+        </article>
+
+      </div>
+
+      <!-- ── Contribution Section ──────────────────────────────────── -->
+      <div class="contribution-section reveal" id="commander" aria-labelledby="contributionTitle">
+        <div class="contribution-header">
+          <span class="section-tag">💝 Contribution</span>
+          <h3 class="section-title" id="contributionTitle">Choisissez votre contribution</h3>
+          <p>
+            Aucun montant minimum. Chaque dollar contribue à rendre les produits menstruels accessibles à toutes.
+          </p>
+        </div>
+
+        <div class="contribution-amounts" role="group" aria-label="Montant de contribution">
+          <button class="amount-btn" data-amount="0" id="amount-0" aria-pressed="false">0$ 💜</button>
+          <button class="amount-btn" data-amount="2" id="amount-2" aria-pressed="false">2$</button>
+          <button class="amount-btn featured active" data-amount="5" id="amount-5" aria-pressed="true">5$ ⭐</button>
+          <button class="amount-btn" data-amount="10" id="amount-10" aria-pressed="false">10$</button>
+          <button class="amount-btn" data-amount="20" id="amount-20" aria-pressed="false">20$</button>
+        </div>
+
+        <div class="custom-amount-wrap">
+          <span style="color: var(--clr-text-muted); font-size:0.9rem;">ou</span>
+          <div class="custom-amount-input">
+            <span aria-hidden="true">$</span>
+            <input
+              type="number"
+              id="customAmount"
+              min="0"
+              max="1000"
+              step="0.50"
+              placeholder="Montant libre"
+              aria-label="Montant de contribution personnalisé"
+            />
+          </div>
+        </div>
+
+        <div class="impact-meter" aria-live="polite">
+          <p class="impact-text" id="impactText">
+            Votre contribution aide <strong id="impactCount">1 personne</strong> à accéder aux produits essentiels.
+          </p>
+          <div class="meter-bar" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100">
+            <div class="meter-fill" id="meterFill" style="width: 20%"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ── Cart Sidebar ──────────────────────────────────────────────── -->
+  <div class="cart-overlay" id="cartOverlay" role="presentation" aria-hidden="true"></div>
+
+  <aside class="cart-sidebar" id="cartSidebar" aria-label="Panier" role="complementary">
+    <div class="cart-header">
+      <h3>🛒 Mon panier</h3>
+      <button class="cart-close" id="cartClose" aria-label="Fermer le panier">✕</button>
+    </div>
+
+    <div class="cart-items" id="cartItems" aria-live="polite">
+      <div class="cart-empty" id="cartEmpty">
+        <span class="empty-icon" aria-hidden="true">🛒</span>
+        <p>Votre panier est vide</p>
+        <small>Ajoutez des produits pour commencer</small>
+      </div>
+    </div>
+
+    <div class="cart-footer">
+      <div class="cart-contribution" id="cartContributionRow" style="display:none;">
+        <span>💝 Contribution volontaire</span>
+        <span id="cartContributionAmt">5,00$</span>
+      </div>
+
+      <div class="cart-total-row">
+        <span class="cart-total-label">Total estimé</span>
+        <span class="cart-total-amount" id="cartTotal">0,00$</span>
+      </div>
+
+      <button class="checkout-btn" id="checkoutBtn" disabled aria-label="Procéder au paiement via Stripe">
+        <span id="checkoutBtnText">🔒 Payer maintenant</span>
+      </button>
+
+      <div class="stripe-badge" aria-label="Paiement sécurisé par Stripe">
+        🔐 Paiement sécurisé par Stripe
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── Footer ────────────────────────────────────────────────────── -->
+  <footer role="contentinfo">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="nav-logo">
+            <div class="logo-icon" aria-hidden="true">🌸</div>
+            Règles Libres
+          </div>
+          <p>
+            Une boutique solidaire dédiée à l'accès universel aux produits menstruels. Parce que chaque personne mérite de vivre ses règles avec dignité.
+          </p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Navigation</h4>
+          <ul>
+            <li><a href="#accueil">Accueil</a></li>
+            <li><a href="#mission">Notre mission</a></li>
+            <li><a href="#produits">Produits</a></li>
+            <li><a href="#commander">Commander</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Informations</h4>
+          <ul>
+            <li><a href="#">Politique de livraison</a></li>
+            <li><a href="#">Retours & échanges</a></li>
+            <li><a href="#">Confidentialité</a></li>
+            <li><a href="mailto:contact@regleslibres.ca">Nous contacter</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© 2025 Règles Libres. Fait avec <span class="footer-heart" aria-label="amour">♥</span> pour toutes.</p>
+        <p>Paiements sécurisés par Stripe 🔐</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

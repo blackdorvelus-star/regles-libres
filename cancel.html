@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Commande annulée — Règles Libres</title>
+  <meta name="robots" content="noindex" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .page-center {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background: var(--gradient-hero);
+    }
+    .cancel-card {
+      background: var(--clr-card);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--radius-xl);
+      padding: 64px 48px;
+      text-align: center;
+      max-width: 480px;
+      width: 100%;
+      backdrop-filter: blur(20px);
+      box-shadow: var(--shadow-lg);
+      animation: fadeUp 0.5s ease both;
+    }
+    @keyframes fadeUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to   { transform: translateY(0); opacity: 1; }
+    }
+    .cancel-icon {
+      font-size: 4rem;
+      display: block;
+      margin-bottom: 24px;
+    }
+    .cancel-card h1 {
+      font-size: 1.8rem;
+      margin-bottom: 16px;
+    }
+    .cancel-card p {
+      color: var(--clr-text-soft);
+      margin-bottom: 12px;
+      line-height: 1.7;
+    }
+    .cancel-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 32px;
+    }
+  </style>
+</head>
+<body>
+  <div class="page-center">
+    <div class="cancel-card">
+      <span class="cancel-icon" aria-hidden="true">💜</span>
+      <h1>Commande annulée</h1>
+      <p>
+        Votre commande a été annulée. Aucun montant n'a été débité.
+      </p>
+      <p>
+        Vous pouvez retourner à la boutique et reprendre votre commande à tout moment. Nous sommes là pour vous.
+      </p>
+
+      <div class="cancel-actions">
+        <a href="/" class="btn btn-primary btn-lg">
+          🌸 Retourner à la boutique
+        </a>
+        <a href="mailto:contact@regleslibres.ca" class="btn btn-outline">
+          Nous contacter
+        </a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
