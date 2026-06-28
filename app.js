@@ -5,14 +5,17 @@ const PRODUCTS = {
   serviettes: { id:'serviettes', name:'Serviettes hygiéniques', desc:'Coton biologique, ultra-douces', price:4.99, image:'images/serviettes.png', unit:'paquet' },
   tampons:    { id:'tampons',    name:'Tampons',                desc:'Coton bio, sans applicateur plastique', price:5.99, image:'images/tampons.png',    unit:'boîte'  },
   pack:       { id:'pack',       name:'Pack Solidaire',         desc:'Serviettes + Tampons Regular', price:9.99, image:null, emoji:'🎀', unit:'pack'   },
+  cup:        { id:'cup',        name:'Coupe Menstruelle',      desc:'Silicone médical, réutilisable', price:19.99, image:null, emoji:'💧', unit:'unité' },
+  pads:       { id:'pads',       name:'Serviettes Lavables',    desc:'Bambou et coton bio', price:24.99, image:null, emoji:'🍃', unit:'lot de 3' },
+  panties:    { id:'panties',    name:'Culotte Menstruelle',    desc:'Protection invisible lavable', price:29.99, image:null, emoji:'👙', unit:'unité' }
 };
 
 // ── State ─────────────────────────────────────────────────────────
 const S = {
   cart:         [],
   contribution: 5,
-  qty:          { serviettes:1, tampons:1, pack:1 },
-  variant:      { serviettes:'Regular', tampons:'Regular', pack:'Essentiel' },
+  qty:          { serviettes:1, tampons:1, pack:1, cup:1, pads:1, panties:1 },
+  variant:      { serviettes:'Regular', tampons:'Regular', pack:'Essentiel', cup:'Taille 1', pads:'Jour', panties:'S' },
   stripe:       null,
 };
 
@@ -288,6 +291,9 @@ function initEvents() {
   document.getElementById('add-serviettes').addEventListener('click', () => addToCart('serviettes'));
   document.getElementById('add-tampons').addEventListener('click', () => addToCart('tampons'));
   document.getElementById('add-pack').addEventListener('click', () => addToCart('pack'));
+  document.getElementById('add-cup').addEventListener('click', () => addToCart('cup'));
+  document.getElementById('add-pads').addEventListener('click', () => addToCart('pads'));
+  document.getElementById('add-panties').addEventListener('click', () => addToCart('panties'));
 
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDrawer(); });
 
