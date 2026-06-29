@@ -91,7 +91,7 @@ function initQty() {
     b.addEventListener('click', () => {
       const pid = b.dataset.pid;
       S.qty[pid] = b.dataset.action === 'inc'
-        ? Math.min(S.qty[pid] + 1, 99)
+        ? Math.min(S.qty[pid] + 1, 3)
         : Math.max(S.qty[pid] - 1, 1);
       document.getElementById(`qty-${pid}`).textContent = S.qty[pid];
     });
@@ -103,11 +103,20 @@ function addToCart(pid) {
   const p = PRODUCTS[pid];
   const variant = S.variant[pid];
   const id = `${pid}-${variant.toLowerCase()}`;
+  
+  const currentTotal = S.cart.reduce((s,i) => s + i.qty, 0);
   const ex = S.cart.find(i => i.id === id);
+  const qtyToAdd = S.qty[pid];
+
+  if (currentTotal + qtyToAdd > 3) {
+    toast('Limite solidaire : 3 articles maximum par commande.', 'err');
+    return;
+  }
+
   if (ex) {
-    ex.qty = Math.min(ex.qty + S.qty[pid], 99);
+    ex.qty += qtyToAdd;
   } else {
-    S.cart.push({ id, pid, name:p.name, desc:p.desc, variant, price:p.price, image:p.image, emoji:p.emoji||null, unit:p.unit, qty:S.qty[pid] });
+    S.cart.push({ id, pid, name:p.name, desc:p.desc, variant, price:p.price, image:p.image, emoji:p.emoji||null, unit:p.unit, qty:qtyToAdd });
   }
   renderCart();
   updateBadge();
@@ -118,7 +127,16 @@ function addToCart(pid) {
 function changeQty(id, delta) {
   const item = S.cart.find(i => i.id === id);
   if (!item) return;
-  item.qty = Math.max(1, Math.min(99, item.qty + delta));
+
+  if (delta > 0) {
+    const currentTotal = S.cart.reduce((s,i) => s + i.qty, 0);
+    if (currentTotal + delta > 3) {
+      toast('Limite solidaire : 3 articles maximum par commande.', 'err');
+      return;
+    }
+  }
+
+  item.qty = Math.max(1, Math.min(3, item.qty + delta));
   renderCart();
 }
 

@@ -39,6 +39,12 @@ app.post('/api/create-checkout-session', async (req, res) => {
   try {
     const { cart, contribution, customer } = req.body;
 
+    // Vérifier la limite de quantité totale pour éviter les abus
+    const totalQty = cart.reduce((s, i) => s + (i.quantity || 1), 0);
+    if (totalQty > 3) {
+      return res.status(400).json({ error: "Limite solidaire : 3 articles maximum par commande." });
+    }
+
     // Construire les line items depuis le panier
     const lineItems = cart.map(item => ({
       price_data: {
